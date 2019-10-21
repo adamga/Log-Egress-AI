@@ -17,6 +17,8 @@ Log4j is a fail-stop logging tool that helps the developer to output log stateme
 
 In this solution, we use log4j application insights appender to collect trace logs and send them automatically to the Azure Application Insights resource where the logs can be displayed and explored. 
 
+For full information about configuring Application Insights for a Java application, please see https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-get-started .
+
 Use the Application Insights Java agent in AI-Agent.xml file:
 ```
 <ApplicationInsightsAgent>
@@ -48,7 +50,7 @@ Add logging libraries to the project to pom.xml:
 </dependency>
 ```
 
-Add the appender to log4f.properties
+Add the appender to log4j.properties
 ```
 # Global logging configuration
 log4j.rootLogger=INFO, stdout, R
@@ -63,11 +65,14 @@ log4j.appender.R=com.microsoft.applicationinsights.log4j.v1_2.ApplicationInsight
 log4j.appender.R.instrumentationKey=ed8a0337-d85a-46d6-9448-4c9f67165808
 ```
 
-Build and run the application
+Build and run the application:
 ```
 mvn clean package
 mvn tomcat7:run
 ```
+
+If you are deploying this to a container, take your packaged .war file (from the maven command above) and create your dockerfile (or docker compose)
+
 
 ### Export log data from Application Insights to Storage Account Blob Storage
 Set up log ingress to storage account by going to selected Application Insights resources -> "Configuration" -> "Continuous Export"
